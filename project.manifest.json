@@ -1,0 +1,55 @@
+{
+  "schemaVersion": 1,
+  "template": {
+    "isTemplate": false,
+    "source": "0000-001-AIReady",
+    "strictValidationArgument": "-Instantiation"
+  },
+  "project": {
+    "id": "2026-042",
+    "name": "ActionDecoder",
+    "title": "ActionDecoder：工业软件光标旁的下一步指令候选",
+    "kind": [
+      "application",
+      "local-ai"
+    ],
+    "status": "developing"
+  },
+  "paths": {
+    "activeRoots": [
+      "b-Office",
+      "b-Code"
+    ],
+    "sourceRoots": [
+      "b-Code"
+    ],
+    "generatedRoots": [],
+    "archiveRoots": [],
+    "allowedRootDirectoryPrefixes": [
+      "a-",
+      "b-",
+      "z-"
+    ]
+  },
+  "documents": {
+    "conventions": "b-Office/现行约定.md"
+  },
+  "commands": {
+    "setup": null,
+    "build": null,
+    "test": null,
+    "verify": "powershell -NoProfile -ExecutionPolicy Bypass -File .\\b-Code\\Test-ProjectContract.ps1 -Instantiation",
+    "run": null,
+    "package": null
+  },
+  "externalDependencies": [],
+  "contextExclusions": [
+    "b-Publish/**",
+    "**/bin/**",
+    "**/obj/**",
+    "**/node_modules/**",
+    "**/.vs/**",
+    "**/.venv/**",
+    "artifacts/**"
+  ]
+}
