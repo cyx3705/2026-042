@@ -1,0 +1,18 @@
+[project]
+name = "actiondecoder-surface"
+version = "0.1.0"
+description = "从运行中的 Solid Edge 导出扁平指令表"
+requires-python = ">=3.12"
+dependencies = ["pywin32>=306"]
+
+[project.scripts]
+surface-extract = "surface.extract:main"
+surface-listen = "surface.listen:main"
+surface-observe = "surface.observe:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["surface"]

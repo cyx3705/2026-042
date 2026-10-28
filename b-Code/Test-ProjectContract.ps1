@@ -73,7 +73,7 @@ foreach ($folder in Get-ChildItem -LiteralPath $repoRoot -Directory) {
 
 # 现行文档里的本地 Markdown 链接必须指向存在的文件（history 只读归档与 z-* 发布区不查）。
 $documents = Get-ChildItem -LiteralPath $repoRoot -Recurse -File -Filter '*.md' |
-    Where-Object { $_.FullName -notmatch '\\(?:bin|obj|node_modules|history|\.git)\\' -and $_.FullName -notmatch '\\z-[^\\]*\\' }
+    Where-Object { $_.FullName -notmatch '\\(?:bin|obj|node_modules|history|\.git|\.venv)\\' -and $_.FullName -notmatch '\\z-[^\\]*\\' }
 foreach ($document in $documents) {
     $content = Get-Content -LiteralPath $document.FullName -Raw -Encoding UTF8
     foreach ($match in [regex]::Matches($content, '\]\((?<target>[^)#:]+)(?:#[^)]*)?\)')) {
@@ -90,7 +90,7 @@ foreach ($document in $documents) {
 if ($Instantiation) {
     $textFiles = Get-ChildItem -LiteralPath $repoRoot -Recurse -File |
         Where-Object { $_.Extension -in @('.md', '.json', '.props', '.csproj') } |
-        Where-Object { $_.FullName -notmatch '\\(?:bin|obj|history|\.git)\\' -and $_.FullName -notmatch '\\z-[^\\]*\\' }
+        Where-Object { $_.FullName -notmatch '\\(?:bin|obj|history|\.git|\.venv)\\' -and $_.FullName -notmatch '\\z-[^\\]*\\' }
     foreach ($file in $textFiles) {
         if ((Get-Content -LiteralPath $file.FullName -Raw -Encoding UTF8) -match '\{\{.+?\}\}') {
             $errors.Add("存在未实例化占位符: $($file.FullName)")

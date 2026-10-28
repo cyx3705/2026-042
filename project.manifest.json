@@ -18,12 +18,16 @@
   "paths": {
     "activeRoots": [
       "b-Office",
-      "b-Code"
+      "b-Code",
+      "b-Code-Surface"
     ],
     "sourceRoots": [
-      "b-Code"
+      "b-Code",
+      "b-Code-Surface/surface"
     ],
-    "generatedRoots": [],
+    "generatedRoots": [
+      "b-Code-Surface/data"
+    ],
     "archiveRoots": [],
     "allowedRootDirectoryPrefixes": [
       "a-",
@@ -35,15 +39,35 @@
     "conventions": "b-Office/现行约定.md"
   },
   "commands": {
-    "setup": null,
+    "setup": "uv sync --project b-Code-Surface",
     "build": null,
     "test": null,
     "verify": "powershell -NoProfile -ExecutionPolicy Bypass -File .\\b-Code\\Test-ProjectContract.ps1 -Instantiation",
     "run": null,
-    "package": null
+    "package": null,
+    "extractSurface": "uv run --project b-Code-Surface surface-extract",
+    "listenSurface": "uv run --project b-Code-Surface surface-listen",
+    "observeSurface": "uv run --project b-Code-Surface surface-observe"
   },
-  "externalDependencies": [],
+  "components": [
+    {
+      "id": "surface",
+      "path": "b-Code-Surface",
+      "purpose": "extractSurface 从运行中的 Solid Edge 只读导出扁平指令表（环境 × 命令 Id、标题、提示、说明、分类）到 data/commands.json；listenSurface 只订阅命令、环境、文档和选择事件，真实建模时写 data/events-*.jsonl；observeSurface 把日志整理成实际用到的命令及“选中什么 → 执行什么”，导出表缺的隐式命令在 surface/observe.py 补录"
+    }
+  ],
+  "externalDependencies": [
+    {
+      "name": "Siemens Solid Edge 2020（已安装、已授权、正在运行）",
+      "purpose": "extractSurface 通过 COM 读 Application.Environments → CommandCategories → CommandInfo；界面语言决定导出的标题和说明语言"
+    },
+    {
+      "name": "pywin32",
+      "purpose": "Python 侧 COM 访问，版本见 b-Code-Surface/pyproject.toml"
+    }
+  ],
   "contextExclusions": [
+    "b-Code-Surface/data/**",
     "b-Publish/**",
     "**/bin/**",
     "**/obj/**",
